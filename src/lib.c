@@ -29,11 +29,12 @@
 GstElement *pipeline = NULL;
 GstElement *appsink = NULL;
 int initialized = 0;
-PipeappCallback callback = NULL;
+PipeappCallback pipeapp_callback = NULL;
 
 int pipeapp_init(gchar *descr) {
         /* init GStreamer */
         g_print("pipeapp_init\n");
+        pipeapp_callback = NULL;
         gst_init(NULL, NULL);
         g_print("%s\n", gst_version_string());
 
@@ -77,9 +78,9 @@ GstFlowReturn app_sink_new_buffer(GstAppSink *sink, gpointer user_data) {
                 return GST_FLOW_ERROR;
         }
 
-        if (callback != NULL) {
+        if (pipeapp_callback != NULL) {
                 g_print("app_sink_new_buffer: fire event\n");
-                callback(buffer->size, buffer->data);
+                pipeapp_callback(buffer->size, buffer->data);
                 g_print("app_sink_new_buffer: end event\n");
         }
         gst_buffer_unref(buffer);
@@ -89,8 +90,8 @@ GstFlowReturn app_sink_new_buffer(GstAppSink *sink, gpointer user_data) {
 void pipeapp_set_callback(PipeappCallback pipeappCallback) {
         g_print("pipeapp_set_callback\n");
         if (initialized) {
-                g_print("pipeapp_set_callback: %i 0x%x <- 0x%x\n", (int) callback, (int) &callback, (int)pipeappCallback);
-                callback = pipeappCallback;
+                g_print("pipeapp_set_callback: %i 0x%x <- 0x%x\n", (int) pipeapp_callback, (int) &pipeapp_callback, (int)pipeappCallback);
+                pipeapp_callback = pipeappCallback;
                 g_print("pipeapp_set_callback: callback\n");
 
                 /* get sink */
