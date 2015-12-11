@@ -13,7 +13,7 @@
                 "capsfilter caps=video/x-raw-yuv,format=\(fourcc\)NV12,width=640,height=480 ! " \
                 "dmaiaccel ! " \
                 "dmaienc_jpeg ! " \
-                "appsink name=sink drop=true""
+                "appsink name=sink drop=true"
 #else
 /* osx test platform */
 #define DEFAULT_PIPE_DESCR "videotestsrc ! " \
