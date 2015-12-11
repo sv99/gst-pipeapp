@@ -10,7 +10,7 @@
 #if defined(__arm__) || defined(__TARGET_ARCH_ARM)
 /* v2r davinchi arm platform */
 #define DEFAULT_PIPE_DESCR "v4l2src always-copy=false num-buffers=1 chain-ipipe=true ! " \
-                "capsfilter caps=video/x-raw-yuv,format=\(fourcc\)NV12,width=640,height=480 ! " \
+                "capsfilter caps=video/x-raw-yuv,format=NV12,width=640,height=480 ! " \
                 "dmaiaccel ! " \
                 "dmaienc_jpeg ! " \
                 "appsink name=sink drop=true"
