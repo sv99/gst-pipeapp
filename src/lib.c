@@ -89,6 +89,7 @@ GstFlowReturn app_sink_new_buffer(GstAppSink *sink, gpointer user_data) {
 void pipeapp_set_callback(PipeappCallback pipeappCallback) {
         g_print("pipeapp_set_callback\n");
         if (initialized) {
+                g_print("pipeapp_set_callback: %i 0x%x <- 0x%x\n", (int) callback, (int) &callback, (int)pipeappCallback);
                 callback = pipeappCallback;
                 g_print("pipeapp_set_callback: callback\n");
 
