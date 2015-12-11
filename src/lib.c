@@ -2,8 +2,10 @@
 // Created by svolkov on 10.12.15.
 //
 
+#include <stdlib.h>
 #include <gst/gst.h>
 #include <gst/app/gstappsink.h>
+
 
 #include "pipeapp.h"
 
