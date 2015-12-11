@@ -27,6 +27,7 @@
 
 /* Global vars */
 GstElement *pipeline = NULL;
+GstElement *appsink = NULL;
 int initialized = 0;
 PipeappCallback callback = NULL;
 
@@ -89,9 +90,10 @@ void pipeapp_set_callback(PipeappCallback pipeappCallback) {
         g_print("pipeapp_set_callback\n");
         if (initialized) {
                 callback = pipeappCallback;
+                g_print("pipeapp_set_callback: callback\n");
 
                 /* get sink */
-                GstElement *appsink = gst_bin_get_by_name(GST_BIN (pipeline), "sink");
+                appsink = gst_bin_get_by_name(GST_BIN (pipeline), "sink");
                 g_print("pipeapp_set_callback: gst_bin_get_by_name\n");
 
                 /* Register the callback */
