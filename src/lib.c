@@ -11,8 +11,8 @@
 
 #if defined(__arm__) || defined(__TARGET_ARCH_ARM)
 /* v2r davinchi arm platform */
-#define DEFAULT_PIPE_DESCR "v4l2src always-copy=false num-buffers=1 chain-ipipe=true ! " \
-                "capsfilter caps=video/x-raw-yuv,format=NV12,width=640,height=480 ! " \
+#define DEFAULT_PIPE_DESCR "v4l2src always-copy=false chain-ipipe=true ! " \
+                "capsfilter caps=video/x-raw-yuv,format=\\(fourcc\\)NV12,width=640,height=480 ! " \
                 "dmaiaccel ! " \
                 "dmaienc_jpeg ! " \
                 "appsink name=sink drop=true"
@@ -92,6 +92,7 @@ void pipeapp_set_callback(PipeappCallback pipeappCallback) {
 
                 /* get sink */
                 GstElement *appsink = gst_bin_get_by_name(GST_BIN (pipeline), "sink");
+                g_print("pipeapp_set_callback: gst_bin_get_by_name\n");
 
                 /* Register the callback */
                 GstAppSinkCallbacks *appsink_callbacks = (GstAppSinkCallbacks *) malloc(sizeof(GstAppSinkCallbacks));
@@ -99,8 +100,10 @@ void pipeapp_set_callback(PipeappCallback pipeappCallback) {
                 appsink_callbacks->new_preroll = NULL;
                 appsink_callbacks->new_buffer = app_sink_new_buffer;
                 appsink_callbacks->new_buffer_list = NULL;
+                g_print("pipeapp_set_callback: malloc\n");
 
                 gst_app_sink_set_callbacks(GST_APP_SINK(appsink), appsink_callbacks, NULL, free);
+                g_print("pipeapp_set_callback: gst_app_sink_set_callbacks\n");
         }
 
 }
