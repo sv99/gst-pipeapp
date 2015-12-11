@@ -27,6 +27,3 @@ link_directories(
 
 add_subdirectory(src)
 # add_subdirectory(tests)
-
-install(PROGRAMS gst-pipeapp.py
-        DESTINATION bin)
