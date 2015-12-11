@@ -29,9 +29,13 @@ gst-launch -v -e videotestsrc ! \
 
 ## v2r appsink
 
-gst-launch -v -e v4l2src always-copy=false num-buffers=1 chain-ipipe=true ! \
+gst-launch -v -e v4l2src always-copy=false chain-ipipe=true ! \
     capsfilter caps=video/x-raw-yuv,format=\(fourcc\)NV12,width=640,height=480 ! \
     dmaiaccel ! \
-    dmaienc_jpeg ! \
+    dmaienc_jpeg copyBuffer=true ! \
     appsink name=sink drop=true
 
+## problems on device
+
+Segmentation fault, when try to atach callback. Callback address -xxxx big value.
+Renaming to pineapp_callback resolve problems. 

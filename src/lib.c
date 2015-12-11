@@ -27,14 +27,13 @@
 
 /* Global vars */
 GstElement *pipeline = NULL;
-GstElement *appsink = NULL;
+// GstElement *appsink = NULL;
 int initialized = 0;
 PipeappCallback pipeapp_callback = NULL;
 
 int pipeapp_init(gchar *descr) {
         /* init GStreamer */
         g_print("pipeapp_init\n");
-        pipeapp_callback = NULL;
         gst_init(NULL, NULL);
         g_print("%s\n", gst_version_string());
 
@@ -95,7 +94,7 @@ void pipeapp_set_callback(PipeappCallback pipeappCallback) {
                 g_print("pipeapp_set_callback: callback\n");
 
                 /* get sink */
-                appsink = gst_bin_get_by_name(GST_BIN (pipeline), "sink");
+                GstElement *appsink = gst_bin_get_by_name(GST_BIN (pipeline), "sink");
                 g_print("pipeapp_set_callback: gst_bin_get_by_name\n");
 
                 /* Register the callback */
