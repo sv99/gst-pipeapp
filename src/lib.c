@@ -32,6 +32,7 @@ PipeappCallback callback = NULL;
 
 int pipeapp_init(gchar *descr) {
         /* init GStreamer */
+        g_print("pipeapp_init\n");
         gst_init(NULL, NULL);
         g_print("%s\n", gst_version_string());
 
@@ -53,6 +54,7 @@ int pipeapp_init(gchar *descr) {
 }
 
 void pipeapp_start() {
+        g_print("pipeapp_start\n");
         if (initialized) {
                 /* play */
                 gst_element_set_state(pipeline, GST_STATE_PLAYING);
@@ -60,6 +62,7 @@ void pipeapp_start() {
 }
 
 void pipeapp_stop() {
+        g_print("pipeapp_stop\n");
         if (initialized) {
                 /* stop */
                 gst_element_set_state(pipeline, GST_STATE_PAUSED);
@@ -67,19 +70,23 @@ void pipeapp_stop() {
 }
 
 GstFlowReturn app_sink_new_buffer(GstAppSink *sink, gpointer user_data) {
+        g_print("app_sink_new_buffer\n");
         GstBuffer *buffer = gst_app_sink_pull_buffer(sink);
         if (buffer == NULL) {
                 return GST_FLOW_ERROR;
         }
 
         if (callback != NULL) {
+                g_print("app_sink_new_buffer: fire event\n");
                 callback(buffer->size, buffer->data);
+                g_print("app_sink_new_buffer: end event\n");
         }
         gst_buffer_unref(buffer);
         return GST_FLOW_OK;
 }
 
 void pipeapp_set_callback(PipeappCallback pipeappCallback) {
+        g_print("pipeapp_set_callback\n");
         if (initialized) {
                 callback = pipeappCallback;
 
