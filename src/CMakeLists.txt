@@ -14,4 +14,8 @@ add_executable(gst-pipeapp ${SOURCE_FILES})
 target_link_libraries(gst-pipeapp gstpipeapp
         ${GLIB2_LIBRARIES})
 
-install(TARGETS gst-pipeapp gstpipeapp)
+install(TARGETS gst-pipeapp gstpipeapp
+        RUNTIME DESTINATION bin
+        LIBRARY DESTINATION lib
+        ARCHIVE DESTINATION lib
+        )
