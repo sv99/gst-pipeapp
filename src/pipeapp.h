@@ -15,9 +15,9 @@ void pipeapp_start();
 
 void pipeapp_stop();
 
-typedef void ( * PipeappCallback)(int size, void* buffer);
+typedef void ( * PipeappCallback)(int size, void* buffer, gpointer user_data);
 
-void pipeapp_set_callback(PipeappCallback pipeappCallback);
+void pipeapp_set_callback(PipeappCallback pipeappCallback, gpointer user_data);
 
 #if defined(__cplusplus)
 } /* extern "C" */

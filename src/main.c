@@ -3,10 +3,16 @@
 #include <stdlib.h>
 #include "pipeapp.h"
 
-#define	PIPE_BUFFER_SIZE	1024
+#define PIPE_BUFFER_SIZE        1024
 
-void callback(int size, void* buffer) {
-        g_print("buffer size: %i\n", size);
+void callback(int size, void *buffer, gpointer user_data) {
+        g_print("buffer size: %i user_data: %i\n", size, (int) user_data);
+        g_print("buffer_start: 0x");
+        for (int i = 0; i < 16; i++) {
+                printf("%02X", ((guint8*) buffer)[i]);
+        }
+        g_print("\n");
+
 }
 
 gint
@@ -34,7 +40,7 @@ main(gint argc, gchar *argv[]) {
                 exit(EXIT_FAILURE);
         }
 
-        pipeapp_set_callback(&callback);
+        pipeapp_set_callback(&callback, (gpointer) 1234);
 
         /* play */
         pipeapp_start();

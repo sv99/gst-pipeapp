@@ -12,15 +12,15 @@
 #if defined(__arm__) || defined(__TARGET_ARCH_ARM)
 /* v2r davinchi arm platform */
 #define DEFAULT_PIPE_DESCR "v4l2src always-copy=false chain-ipipe=true ! " \
-                "capsfilter caps=video/x-raw-yuv,format=\\(fourcc\\)NV12,width=640,height=480,framerate=10/1 ! " \
+                "capsfilter caps=video/x-raw-yuv,format=\\(fourcc\\)NV12,width=640,height=480,framerate=5/1 ! " \
                 "dmaiaccel ! " \
                 "dmaienc_jpeg ! " \
                 "appsink name=sink drop=true"
 #else
 /* osx test platform */
 #define DEFAULT_PIPE_DESCR "videotestsrc ! " \
-                 "video/x-raw-rgb,width=640,height=480,framerate=10/1 ! " \
-                 "pngenc snapshot=false ! " \
+                 "video/x-raw-rgb,width=640,height=480,framerate=5/1 ! " \
+                 "jpegenc ! " \
                  "appsink name=sink drop=true"
 
 #endif
@@ -79,14 +79,19 @@ GstFlowReturn app_sink_new_buffer(GstAppSink *sink, gpointer user_data) {
 
         if (pipeapp_callback != NULL) {
                 //g_print("app_sink_new_buffer: fire event\n");
-                pipeapp_callback(buffer->size, buffer->data);
+//                g_print("buffer: 0x");
+//                for (int i = 0; i < 16; i++) {
+//                        printf("%02X", buffer->data[i]);
+//                }
+//                g_print("\n");
+                pipeapp_callback(buffer->size, buffer->data, user_data);
                 //g_print("app_sink_new_buffer: end event\n");
         }
         gst_buffer_unref(buffer);
         return GST_FLOW_OK;
 }
 
-void pipeapp_set_callback(PipeappCallback pipeappCallback) {
+void pipeapp_set_callback(PipeappCallback pipeappCallback, gpointer user_data) {
         g_print("pipeapp_set_callback\n");
         if (initialized) {
                 //g_print("pipeapp_set_callback: %i 0x%x <- 0x%x\n", (int) pipeapp_callback, (int) &pipeapp_callback, (int)pipeappCallback);
@@ -102,7 +107,7 @@ void pipeapp_set_callback(PipeappCallback pipeappCallback) {
                 appsink_callbacks->new_buffer = app_sink_new_buffer;
                 appsink_callbacks->new_buffer_list = NULL;
 
-                gst_app_sink_set_callbacks(GST_APP_SINK(appsink), appsink_callbacks, NULL, free);
+                gst_app_sink_set_callbacks(GST_APP_SINK(appsink), appsink_callbacks, user_data, free);
         }
 
 }
