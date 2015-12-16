@@ -14,7 +14,7 @@
 #define DEFAULT_PIPE_DESCR "v4l2src always-copy=false chain-ipipe=true ! " \
                 "capsfilter caps=video/x-raw-yuv,format=\\(fourcc\\)NV12,width=640,height=480,framerate=5/1 ! " \
                 "dmaiaccel ! " \
-                "dmaienc_jpeg ! " \
+                "dmaienc_jpeg copyOutput=true ! " \
                 "appsink name=sink drop=true"
 #else
 /* osx test platform */
